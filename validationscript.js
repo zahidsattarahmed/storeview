@@ -22,7 +22,6 @@ function save()
     const body = JSON.stringify({ events });
     events = [];
 
-    //hello
     var url = "https://productview.optymyze.io/pv/public/record";
     // http://localhost:8888/upsell-new/public/main?shop=latest-dev.myshopify.com
     var params = "events=" + body;
