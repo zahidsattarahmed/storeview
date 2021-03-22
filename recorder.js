@@ -37,7 +37,7 @@ function save()
 
     eventsSV = [];
 
-    var url = "https://cdn.jsdelivr.net/gh/zahidsattarahmed/storeview/recorder.js	";
+    var url = "https://productview.ngrok.io/recordings/public/record";
     //var url = "https://productview.optymyze.io/pv/public/record";
     // http://localhost:8888/upsell-new/public/main?shop=latest-dev.myshopify.com
     var params = "events=" + body + "&unique_id=" + uniqueId;
