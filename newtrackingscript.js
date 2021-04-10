@@ -326,7 +326,6 @@ function storeActivities(activities, cartData, ip)
         var uniqueId = localStorage.getItem('sv_app_unique_id');
 
         activities = encodeURIComponent(activities);
-        cartItems = encodeURIComponent(cartItems);
 
         var params = "shop_name=" + shop + "&data=" + activities + "&timestamp=" + Date.now() + "&cart_items=" + cartItems + "&ip=" + ip + "&customer_id=" + customerId + "&unique_id=" + uniqueId;
 
