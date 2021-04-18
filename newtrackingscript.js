@@ -117,7 +117,6 @@ function getCartInfo(type) {
 function createActivityItems(cartData, previousCartData)
 {
     var activities = new Array();
-    var shouldGetIP = false; // If the cart is new then we need to get the IP address.
 
     var isNewCart = false;
 
@@ -148,7 +147,6 @@ function createActivityItems(cartData, previousCartData)
                 'timestamp': Date.now(),
             }
 
-            shouldGetIP = true;
             activities.push(activity);
         }
     }
@@ -240,7 +238,7 @@ function createActivityItems(cartData, previousCartData)
         }
     }
 
-    performIPCheck(activities, cartData, shouldGetIP);
+    storeActivities(activities, cartData);
 }
 
 function getCurrentCartItems(currentCartData)
@@ -269,33 +267,7 @@ function getPreviousCartItems(previousCartData)
     return previousCartItems;
 }
 
-function performIPCheck(activities, cartData, shouldGetIP)
-{
-    var ip = '';
-
-    if(shouldGetIP == true)
-    {
-        var http = new XMLHttpRequest();
-
-        var url = "https://api.ipify.org?format=text";
-        http.open("GET", url, true);
-
-        http.onreadystatechange = function () {
-            if (http.readyState == 4 && http.status == 200) {
-                var ip = http.responseText;
-                storeActivities(activities, cartData, ip);
-            }
-        }
-
-        http.send(null);
-    }
-    else
-    {
-        storeActivities(activities, cartData, ip);
-    }
-}
-
-function storeActivities(activities, cartData, ip)
+function storeActivities(activities, cartData)
 {
     if(activities.length != 0)
     {
@@ -326,7 +298,7 @@ function storeActivities(activities, cartData, ip)
         activities = encodeURIComponent(activities);
         cartItems = encodeURIComponent(cartItems);
 
-        var params = "shop_name=" + shop + "&data=" + activities + "&timestamp=" + Date.now() + "&cart_items=" + cartItems + "&ip=" + ip + "&customer_id=" + customerId + "&unique_id=" + uniqueId;
+        var params = "shop_name=" + shop + "&data=" + activities + "&timestamp=" + Date.now() + "&cart_items=" + cartItems + "&customer_id=" + customerId + "&unique_id=" + uniqueId;
 
         http.open("POST", url, true);
 
