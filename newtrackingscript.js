@@ -44,12 +44,10 @@ if(typeof($) !== 'undefined')
 
         response.then(res => {
 
-            var origin = window.location.origin;
-
-            if(res.url.indexOf(origin + '/cart/add') !== -1 || 
-                res.url.indexOf(origin + '/cart/update') !== -1 || 
-                    res.url.indexOf(origin + '/cart/change') !== -1 || 
-                        res.url.indexOf(origin + '/cart/clear') !== -1)
+            if(res.url.indexOf('/cart/add') !== -1 || 
+                res.url.indexOf('/cart/update') !== -1 || 
+                    res.url.indexOf('/cart/change') !== -1 || 
+                        res.url.indexOf('/cart/clear') !== -1)
                         {
                             res.clone().json().then(getCartInfo(res.url));
                         }
