@@ -11,16 +11,54 @@ postPageVisit(pageURL);
 getCartInfo("regular");
 
 // manage ajax events
-$(document).ajaxComplete(function (event, request, settings) {
-    var url = settings.url;
 
-    if (settings.type == 'POST') {
-        if (url == "/cart/add.js" || url == "/cart/update.js" || url == "/cart/change.js" || url == "/cart/clear.js")
+// XMLHttpRequest.prototype.oldSend = XMLHttpRequest.prototype.send
+// XMLHttpRequest.prototype.send = function (data) {
+//     // there you can log requests
+//     console.log("AJAX request was sent.");
+//     this.oldSend.call(this, data);
+// }
+
+// manage ajax events
+if(typeof($) !== 'undefined')
+{
+    $(document).ajaxComplete(function (event, request, settings) {
+            
+        var url = settings.url;
+
+        if (url.indexOf('/cart/add') !== -1 ||
+                 url.indexOf('/cart/update') !== -1 || 
+                    url.indexOf('/cart/change') !== -1 ||
+                         url.indexOf('/cart/clear') !== -1)
         {
             getCartInfo("ajax - " + url);
         }
+    });
+}
+
+(function(ns, fetch) {
+    if (typeof fetch !== 'function') return;
+
+    ns.fetch = function() {
+        const response = fetch.apply(this, arguments);
+
+        response.then(res => {
+
+            var origin = window.location.origin;
+
+            if(res.url.indexOf(origin + '/cart/add') !== -1 || 
+                res.url.indexOf(origin + '/cart/update') !== -1 || 
+                    res.url.indexOf(origin + '/cart/change') !== -1 || 
+                        res.url.indexOf(origin + '/cart/clear') !== -1)
+                        {
+                            res.clone().json().then(getCartInfo(res.url));
+                        }
+        });
+
+        return response;
     }
-});
+
+}(window, window.fetch))
 
 
 function postPageVisit(pageURL)
@@ -321,13 +359,13 @@ function storeActivities(activities, cartData)
 }
 
 function randomString() {
-	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-	var string_length = 32;
-	var str = '';
-	for (var i=0; i<string_length; i++) {
-		var rnum = Math.floor(Math.random() * chars.length);
-		str += chars.substring(rnum,rnum+1);
-	}
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var string_length = 32;
+    var str = '';
+    for (var i=0; i<string_length; i++) {
+        var rnum = Math.floor(Math.random() * chars.length);
+        str += chars.substring(rnum,rnum+1);
+    }
   return str;
 }
 
