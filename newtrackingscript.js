@@ -51,6 +51,32 @@ if(typeof($) !== 'undefined')
                         {
                             res.clone().json().then(getCartInfo(res.url));
                         }
+
+            if(res.url == 'https://monorail-edge.shopifysvc.com/v1/produce')
+            {
+                let body = JSON.parse(arguments[1].body);
+
+                if(body.payload.event == 'spb_checkout_created')
+                {
+                    let checkoutToken = body.payload.checkout_token;    
+
+                    if (localStorage.getItem('sv_app_unique_id') === null) 
+                    {
+                        //store value for the first time.
+                        var uniqueString = randomString();
+                        localStorage.setItem('sv_app_unique_id', uniqueString);
+                    }
+
+                    var uniqueId = localStorage.getItem('sv_app_unique_id');
+
+                    let data = {};
+                    data.checkout_token = checkoutToken;
+                    data.unique_id = uniqueId;
+                    data = JSON.stringify(data);
+
+                    navigator.sendBeacon('https://optymyze.io/tracking/public/storecheckout', data);
+                }
+            }
         });
 
         return response;
