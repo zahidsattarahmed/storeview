@@ -74,7 +74,7 @@ if(typeof($) !== 'undefined')
                     data.unique_id = uniqueId;
                     data = JSON.stringify(data);
 
-                    navigator.sendBeacon('https://optymyze.io/tracking/public/storecheckout', data);
+                    navigator.sendBeacon('https://storeview.optymyze.io/tracking/public/storecheckout', data);
                 }
             }
         });
@@ -346,7 +346,7 @@ function storeActivities(activities, cartData)
         var http = new XMLHttpRequest();
 
         //var url = "https://storeview.ngrok.io/storeview/public/storeactivities";
-        var url = "https://optymyze.io/tracking/public/storeactivities";
+        var url = "https://storeview.optymyze.io/tracking/public/storeactivities";
 
         var customerId = "";
 
