@@ -360,7 +360,7 @@ function storeActivities(activities, cartData)
         activities = encodeURIComponent(activities);
         cartItems = encodeURIComponent(cartItems);
 
-        var params = "shop_name=" + shop + "&data=" + activities + "&timestamp=" + Date.now() + "&cart_items=" + cartItems + "&customer_id=" + customerId + "&unique_id=" + uniqueId;
+        var params = "shop_name=" + shop + "&data=" + activities + "&timestamp=" + Date.now() + "&cart_items=" + cartItems + "&customer_id=" + customerId + "&unique_id=" + uniqueId + "currency=" + cartData.currency;
 
         http.open("POST", url, true);
 
